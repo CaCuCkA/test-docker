@@ -6,31 +6,35 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
+    environment {
+        COMPOSE_HTTP_TIMEOUT = '300'
+    }
     stages {
         stage("create docker image") {
             steps {
                 echo "=========================== start building image ======================"
-                sh 'docker-compose up --build'
+                sh '''
+                export COMPOSE_HTTP_TIMEOUT=${COMPOSE_HTTP_TIMEOUT}
+                docker-compose up --build
+                '''
             }
         }
     }
     post {
         success {
             echo "Build succeeded! Sending notification to Flask server..."
-            // Using `curl` to send a notification
             sh '''
             curl -X POST -H "Content-Type: application/json" \
                  -d '{"message": "Build was successful!", "status": "success"}' \
-                 http://localhost:5000/notify
+                 http://172.19.0.3:5000/notify
             '''
         }
         failure {
             echo "Build failed! Sending failure notification to Flask server..."
-            // Using `curl` to send a failure notification
             sh '''
             curl -X POST -H "Content-Type: application/json" \
                  -d '{"message": "Build failed!", "status": "failure"}' \
-                 http://localhost:5000/notify
+                 http://172.19.0.3:5000/notify
             '''
         }
     }
