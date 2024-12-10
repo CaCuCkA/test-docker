@@ -1,19 +1,37 @@
-#!groovy
-
 properties([disableConcurrentBuilds()])
 
 pipeline {
-	agent any
-	options {
-		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
-		timestamps()
-	}
-	stages {
-		stage("create docker image") {
-			steps {
-				echo "=========================== start building image ======================"
-				sh 'docker-compose up --build'
-			}
-		}
-	}
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("create docker image") {
+            steps {
+                echo "=========================== start building image ======================"
+                sh 'docker-compose up --build'
+            }
+        }
+    }
+    post {
+        success {
+            echo "Build succeeded! Sending notification to Flask server..."
+            // Using `curl` to send a notification
+            sh '''
+            curl -X POST -H "Content-Type: application/json" \
+                 -d '{"message": "Build was successful!", "status": "success"}' \
+                 http://localhost:5000/notify
+            '''
+        }
+        failure {
+            echo "Build failed! Sending failure notification to Flask server..."
+            // Using `curl` to send a failure notification
+            sh '''
+            curl -X POST -H "Content-Type: application/json" \
+                 -d '{"message": "Build failed!", "status": "failure"}' \
+                 http://localhost:5000/notify
+            '''
+        }
+    }
 }
