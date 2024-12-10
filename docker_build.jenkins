@@ -7,7 +7,7 @@ pipeline {
         timestamps()
     }
     environment {
-        COMPOSE_HTTP_TIMEOUT = '300'
+        COMPOSE_HTTP_TIMEOUT = '300' // Set timeout to 5 minutes
     }
     stages {
         stage("create docker image") {
