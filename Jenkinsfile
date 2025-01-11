@@ -1,11 +1,11 @@
-// Define email parameters
-def recipient = 'nickolay.yakovkin@gmail.com'
-def subject = 'Test Email from Jenkins'
-def body = 'This is a test email sent from Jenkins using Groovy!'
+pipeline {
+    agent any
 
-emailext (
-    to: recipient,
-    subject: subject,
-    body: body,
-    mimeType: 'text/html'
-)
+    stages {
+        stage('Hello') {
+            steps {
+                mail bcc: '', body: 'Test', subject: 'Test', to: 'nickolay.yakovkin@gmail.com'
+            }
+        }
+    }
+}
