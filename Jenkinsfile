@@ -15,10 +15,11 @@ pipeline {
                 }
             }
         }
-    }
-    stage('Send Success') {
-        steps {
-            mail bcc: '', body: 'The pipeline completed successfully!', subject: 'Pipeline Success Notification', to: 'nickolay.yakovkin@gmail.com'
+        stage('Send Success') {
+            steps {
+                mail bcc: '', body: 'The pipeline completed successfully!', subject: 'Pipeline Success Notification', to: 'nickolay.yakovkin@gmail.com'
+            }
         }
     }
+
 }
