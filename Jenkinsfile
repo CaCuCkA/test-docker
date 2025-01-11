@@ -16,6 +16,7 @@ node {
             echo 'Pipeline completed successfully. Sending notification...'
             emailext(
                 subject: "Pipeline SUCCESS: ${env.JOB_NAME}",
+                to: 'nickolay.yakovkin@gmail.com',
                 body: """
 Hello Team,
 
@@ -29,8 +30,7 @@ The Jenkins pipeline for the job [${env.JOB_NAME}] has completed successfully.
 
 Best regards,  
 Jenkins
-                """,
-                to: 'nickolay.yakovkin@gmail.com'
+                """
             )
         }
     } catch (Exception e) {
