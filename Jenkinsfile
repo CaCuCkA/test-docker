@@ -7,7 +7,7 @@ pipeline {
                     try {
                         echo "Building Docker image ..."
                         sh '''
-                            docker-compose up --build
+                            docker-compose up --build -d
                         '''
                     } catch (Exception e) {
                         mail bcc: '', body: 'The Docker build failed.', subject: 'Job Failed', to: 'nickolay.yakovkin@gmail.com'
@@ -22,5 +22,14 @@ pipeline {
             }
         }
     }
-
+    post {
+        always {
+            script {
+                echo "Stopping Docker containers ..."
+                sh '''
+                    docker-compose down
+                '''
+            }
+        }
+    }
 }
