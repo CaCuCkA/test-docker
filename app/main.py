@@ -1,8 +1,6 @@
-from flask import Flask, jsonify, request
 import mysql.connector
 from mysql.connector import Error
 
-app = Flask(__name__)
 
 def get_db_connection():
     try:
@@ -20,7 +18,7 @@ def get_db_connection():
 def create_table():
     connection = get_db_connection()
     if not connection:
-        return jsonify({"error": "Failed to connect to the database"}), 500
+        return -1
     cursor = connection.cursor()
     try:
         cursor.execute("""
@@ -31,46 +29,13 @@ def create_table():
             )
         """)
         connection.commit()
-        return jsonify({"message": "Table 'users' created successfully"}), 201
+        return -1
     except Error as e:
-        return jsonify({"error": str(e)}), 500
+        return -1
     finally:
         cursor.close()
         connection.close()
 
-def insert_data():
-    connection = get_db_connection()
-    if not connection:
-        return jsonify({"error": "Failed to connect to the database"}), 500
-    cursor = connection.cursor()
-    try:
-        data_to_insert = request.json.get('users', [])
-        if not data_to_insert:
-            return jsonify({"error": "No data provided"}), 400
-        insert_query = "INSERT INTO users (name, email) VALUES (%s, %s)"
-        cursor.executemany(insert_query, data_to_insert)
-        connection.commit()
-        return jsonify({"message": f"{cursor.rowcount} rows inserted"}), 201
-    except Error as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        connection.close()
-
-def get_users():
-    connection = get_db_connection()
-    if not connection:
-        return jsonify({"error": "Failed to connect to the database"}), 500
-    cursor = connection.cursor(dictionary=True)
-    try:
-        cursor.execute("SELECT * FROM users")
-        rows = cursor.fetchall()
-        return jsonify(rows), 200
-    except Error as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        connection.close()
 
 if __name__ == "__main__":
     create_table()
