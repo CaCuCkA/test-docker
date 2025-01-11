@@ -5,7 +5,6 @@ node {
     def dockerImage = 'mysql-test-project:latest'
 
     try {
-        // Checkout Code Stage
         stage('Checkout Code') {
             echo 'Fetching data from Git repository...'
             checkout scm
@@ -18,7 +17,7 @@ node {
         }
 
         // Notification for Success
-        stage('Notification') {
+        stage('Notification - Success') {
             echo 'Pipeline completed successfully. Sending notification...'
             emailext(
                 subject: "Pipeline SUCCESS: ${env.JOB_NAME}",
@@ -39,7 +38,7 @@ Jenkins
                 to: 'nickolay.yakovkin@gmail.com'
             )
         }
-    } catch (e) {
+    } catch (Exception e) {
         // Notification for Failure
         echo "Pipeline failed: ${e.message}"
         emailext(
