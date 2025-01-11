@@ -6,10 +6,10 @@ node {
 
     try {
 
-        stage('Build Docker Image') {
-            echo "Building Docker image: ${dockerImage}"
-            sh "docker build -t ${dockerImage} ."
-        }
+        // stage('Build Docker Image') {
+        //     echo "Building Docker image: ${dockerImage}"
+        //     sh "docker build -t ${dockerImage} ."
+        // }
 
         // Notification for Success
         stage('Notification - Success') {
