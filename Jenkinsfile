@@ -13,25 +13,11 @@ node {
 
         // Notification for Success
         stage('Notification - Success') {
-            echo 'Pipeline completed successfully. Sending notification...'
-            emailext(
-                subject: "Pipeline SUCCESS: ${env.JOB_NAME}",
-                to: 'nickolay.yakovkin@gmail.com',
-                body: """
-Hello Team,
-
-The Jenkins pipeline for the job [${env.JOB_NAME}] has completed successfully.
-
-**Details:**
-- Job Name: ${env.JOB_NAME}
-- Build Number: ${env.BUILD_NUMBER}
-- Branch: ${branch}
-- Build URL: ${env.BUILD_URL}
-
-Best regards,  
-Jenkins
-                """
-            )
+             emailext(
+                            body: "The pipeline failed during the Docker build stage. Error",
+                            subject: "Pipeline Failed: Build Docker Image",
+                            to: "nickolay.yakovkin@gmail.com"
+                        )
         }
     } catch (Exception e) {
         // Notification for Failure
