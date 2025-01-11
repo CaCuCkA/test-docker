@@ -5,12 +5,7 @@ node {
     def dockerImage = 'mysql-test-project:latest'
 
     try {
-        stage('Checkout Code') {
-            echo 'Fetching data from Git repository...'
-            checkout scm
-        }
 
-        // Build Docker Image Stage
         stage('Build Docker Image') {
             echo "Building Docker image: ${dockerImage}"
             sh "docker build -t ${dockerImage} ."
