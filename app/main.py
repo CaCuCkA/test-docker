@@ -17,7 +17,6 @@ def get_db_connection():
         print(f"Error: {e}")
         return None
 
-@app.route('/create_table', methods=['POST'])
 def create_table():
     connection = get_db_connection()
     if not connection:
@@ -39,7 +38,6 @@ def create_table():
         cursor.close()
         connection.close()
 
-@app.route('/insert_data', methods=['POST'])
 def insert_data():
     connection = get_db_connection()
     if not connection:
@@ -59,7 +57,6 @@ def insert_data():
         cursor.close()
         connection.close()
 
-@app.route('/get_users', methods=['GET'])
 def get_users():
     connection = get_db_connection()
     if not connection:
@@ -76,5 +73,4 @@ def get_users():
         connection.close()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
-
+    create_table()
