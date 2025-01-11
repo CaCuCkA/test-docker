@@ -11,6 +11,7 @@ pipeline {
                         '''
                     } catch (Exception e) {
                         mail bcc: '', body: 'The Docker build failed.', subject: 'Job Failed', to: 'nickolay.yakovkin@gmail.com'
+                        error("Stopping pipeline due to failure in Docker build.")
                     }
                 }
             }
