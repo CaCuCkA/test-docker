@@ -1,6 +1,6 @@
 node {
     // Define variables
-    def repoUrl = 'git@github.com:CaCuCkA/test-docker.git'
+    def repoUrl = 'https://github.com/CaCuCkA/test-docker.git'
     def branch = 'main'
     def dockerImage = 'mysql-test-project:latest'
 
