@@ -39,4 +39,4 @@ def create_table():
 
 if __name__ == "__main__":
     create_table()
-    print("Updated row +1")
+    print("Updated row +2")
