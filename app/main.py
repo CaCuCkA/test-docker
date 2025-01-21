@@ -21,7 +21,7 @@ def get_db_connection():
 def create_table():
     connection = get_db_connection()
     if not connection:
-        return jsonify({"error": "Failed to connect to the database"}), 500
+        return jsonify({"err1or": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
     try:
         cursor.execute("""
