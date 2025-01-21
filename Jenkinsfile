@@ -22,7 +22,7 @@ pipeline {
                     try {
                         echo "Running tests with venv in Docker container ..."
                         sh '''
-                            bash -c "source /home/Mykola/venv/bin/activate && python -m unittest /home/Mykola/test.py"
+                            bash -c "source /home/Mykola/venv/bin/activate &&  python -m unittest discover -s /home/Mykola/test"
                         '''
                     } catch (Exception e) {
                         mail bcc: '', body: 'The test execution failed.', subject: 'Test Failed', to: 'nickolay.yakovkin@gmail.com'
