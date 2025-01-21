@@ -58,7 +58,7 @@ def insert_data():
             INSERT INTO users (name, email) VALUES (%s, %s)
         """, (name, email))
         connection.commit()
-        return jsonify({"message": "User data inserted successfully"}), 201
+        return jsonify({"message1": "User data inserted successfully"}), 201
     except Error as e:
         return jsonify({"error": str(e)}), 500
     finally:
