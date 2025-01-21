@@ -12,7 +12,7 @@ def get_db_connection():
         )
         return connection
     except Error as e:
-        print(f"Error: {e}")
+        print(f"Err1or: {e}")
         return None
 
 def create_table():
