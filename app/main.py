@@ -7,7 +7,7 @@ app = Flask(__name__)
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="mysql_db",  # Ensure the MySQL service is correctly configured.
+            host="mysql_db",  # Ensure the MySQL s1ervice is correctly configured.
             user="root",
             password="password",  # Ensure the password is correct.
             database="test_db"    # Ensure the database exists or is created.
