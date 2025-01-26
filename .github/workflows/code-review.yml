@@ -1,5 +1,5 @@
 - uses: tusgino/llm-code-reviewer@v1
   with:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    GITHUB_TOKEN: ${{ secrets.TOKEN }}
     GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     PRIMARY_MODEL: 'gemini'
