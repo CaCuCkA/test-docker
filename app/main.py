@@ -4,16 +4,20 @@ from mysql.connector import Error
 
 app = Flask(__name__)
 
+# Added an unused variable to check for unused variable detection.
+UNUSED_VAR = "This is not used"
+
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="mysql_db",  # Ensure the MySQL service is correctly configured.
+            host="mysql_db",
             user="root",
-            password="password",  # Ensure the password is correct.
-            database="test_db"    # Ensure the database exists or is created.
+            password="password",
+            database="test_db"
         )
         return connection
     except Error as e:
+        # Used `print` instead of logging to highlight best practice issues.
         print(f"Error: {e}")
         return None
 
@@ -24,7 +28,8 @@ def create_table():
         return jsonify({"error": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
     try:
-        cursor.execute("""
+        # Added potential SQL injection by using f-strings.
+        cursor.execute(f"""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
@@ -34,8 +39,10 @@ def create_table():
         connection.commit()
         return jsonify({"message": "Table 'users' created successfully"}), 201
     except Error as e:
+        # Repeated string usage without defining a constant for error messages.
         return jsonify({"error": str(e)}), 500
     finally:
+        # Missing `if cursor` check before closing.
         cursor.close()
         connection.close()
 
@@ -45,8 +52,9 @@ def insert_data():
     if not connection:
         return jsonify({"error": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
-    data = request.get_json()  # Get JSON data from the request
+    data = request.get_json()
 
+    # Missing validation for the type of 'name' and 'email' fields.
     if not data or 'name' not in data or 'email' not in data:
         return jsonify({"error": "Missing 'name' or 'email' field"}), 400
 
@@ -54,14 +62,16 @@ def insert_data():
     email = data['email']
 
     try:
-        cursor.execute("""
-            INSERT INTO users (name, email) VALUES (%s, %s)
-        """, (name, email))
+        # Introduced SQL injection by directly formatting the query.
+        cursor.execute(f"""
+            INSERT INTO users (name, email) VALUES ('{name}', '{email}')
+        """)
         connection.commit()
         return jsonify({"message": "User data inserted successfully"}), 201
     except Error as e:
         return jsonify({"error": str(e)}), 500
     finally:
+        # Missing `if cursor` and `if connection` checks before closing.
         cursor.close()
         connection.close()
 
@@ -72,8 +82,10 @@ def get_users():
         return jsonify({"error": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
     try:
+        # Introduced performance issue by not limiting the number of rows fetched.
         cursor.execute("SELECT * FROM users")
         users = cursor.fetchall()
+        # Incorrect data structure returned; should use a JSON-friendly format.
         return jsonify(users), 200
     except Error as e:
         return jsonify({"error": str(e)}), 500
@@ -82,4 +94,5 @@ def get_users():
         connection.close()
 
 if __name__ == '__main__':
+    # Used debug mode in production for demonstration.
     app.run(host='0.0.0.0', port=5002, debug=True)
