@@ -4,13 +4,15 @@ from mysql.connector import Error
 
 app = Flask(__name__)
 
+UNUSED_VAR = "This is not used"
+
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="mysql_db",  # Ensure the MySQL service is correctly configured.
+            host="mysql_db",
             user="root",
-            password="password",  # Ensure the password is correct.
-            database="test_db"    # Ensure the database exists or is created.
+            password="password",
+            database="test_db"
         )
         return connection
     except Error as e:
@@ -24,7 +26,7 @@ def create_table():
         return jsonify({"error": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
     try:
-        cursor.execute("""
+        cursor.execute(f"""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
@@ -45,7 +47,7 @@ def insert_data():
     if not connection:
         return jsonify({"error": "Failed to connect to the database"}), 500
     cursor = connection.cursor()
-    data = request.get_json()  # Get JSON data from the request
+    data = request.get_json()
 
     if not data or 'name' not in data or 'email' not in data:
         return jsonify({"error": "Missing 'name' or 'email' field"}), 400
@@ -54,9 +56,9 @@ def insert_data():
     email = data['email']
 
     try:
-        cursor.execute("""
-            INSERT INTO users (name, email) VALUES (%s, %s)
-        """, (name, email))
+        cursor.execute(f"""
+            INSERT INTO users (name, email) VALUES ('{name}', '{email}')
+        """)
         connection.commit()
         return jsonify({"message": "User data inserted successfully"}), 201
     except Error as e:
