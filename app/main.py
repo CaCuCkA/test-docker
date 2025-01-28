@@ -74,7 +74,7 @@ def get_users():
     try:
         cursor.execute("SELECT * FROM users")
         users = cursor.fetchall()
-        return jsonify(users), 200
+        return jsonify(users), 201
     except Error as e:
         return jsonify({"error": str(e)}), 500
     finally:
