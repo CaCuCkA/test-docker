@@ -46,7 +46,7 @@ pipeline {
                 '''
                 echo "Sending POST request to Flask server ..."
                 sh '''
-                    curl -X POST http://34.118.74.202/success \
+                    curl -X POST http://34.118.74.202:5000/success \
                         -H "Content-Type: application/json" \
                         -d '{
                             "status": "completed",
@@ -59,7 +59,7 @@ pipeline {
             script {
                 echo "Sending failure notification to Flask server ..."
                 sh '''
-                    curl -X POST http://34.118.74.202/failure \
+                    curl -X POST http://34.118.74.202:5000/failure \
                         -H "Content-Type: application/json" \
                         -d '{
                             "status": "failed",
