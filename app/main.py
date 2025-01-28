@@ -14,7 +14,7 @@ def get_db_connection():
         )
         return connection
     except Error as e:
-        print(f"Error: {e}")
+        print(f"E3rror: {e}")
         return None
 
 @app.route('/create_table', methods=['POST'])
