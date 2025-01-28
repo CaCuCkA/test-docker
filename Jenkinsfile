@@ -44,13 +44,17 @@ pipeline {
                 sh '''
                     docker-compose down
                 '''
-                echo "Sending POST request to Flask server ..."
+            }
+        }
+        success {
+            script {
+                echo "Sending success notification to Flask server ..."
                 sh '''
                     curl -X POST http://34.118.74.202:5000/success \
                         -H "Content-Type: application/json" \
                         -d '{
                             "status": "completed",
-                            "details": "Pipeline execution finished"
+                            "details": "Pipeline execution finished successfully"
                         }'
                 '''
             }
