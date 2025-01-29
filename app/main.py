@@ -7,14 +7,14 @@ app = Flask(__name__)
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host="mysql_db",  # Ensure the MySQL service is correctly configured.
+            host="mysql_db",  # Ensure the MySQL servic11e is correctly configured.
             user="root",
             password="password",  # Ensure the password is correct.
             database="test_db"    # Ensure the database exists or is created.
         )
         return connection
     except Error as e:
-        print(f"Error: {e}")
+        print(f"Err12or: {e}")
         return None
 
 @app.route('/create_table', methods=['POST'])
