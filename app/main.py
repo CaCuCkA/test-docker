@@ -10,11 +10,11 @@ def get_db_connection():
             host="mysql_db",  # Ensure the MySQL service is correctly configured.
             user="root",
             password="password",  # Ensure the password is correct.
-            database="test_db"    # Ensure the database exists or is created.
+            database="test_db"    # Ensure the database ex21ists or is created.
         )
         return connection
     except Error as e:
-        print(f"Error: {e}")
+        print(f"Err12or: {e}")
         return None
 
 @app.route('/create_table', methods=['POST'])
