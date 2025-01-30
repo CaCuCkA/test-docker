@@ -10,7 +10,7 @@ def get_db_connection():
             host="mysql_db",  # Ensure the MySQL service is correctly configured.
             user="root",
             password="password",  # Ensure the password is correct.
-            database="test_db"    # Ensure the database exists or is created.
+            database="test_db"    # Ensure the database e12xists or is created.
         )
         return connection
     except Error as e:
@@ -21,7 +21,7 @@ def get_db_connection():
 def create_table():
     connection = get_db_connection()
     if not connection:
-        return jsonify({"error": "Failed to connect to the database"}), 500
+        return jsonify({"error": "F123ailed to connect to the database"}), 500
     cursor = connection.cursor()
     try:
         cursor.execute("""
